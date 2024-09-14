@@ -1,6 +1,9 @@
 (setq org-capture-templates
   '(("z" "Zettelkasten Entry" entry (file create-zettelkasten-entry)
-    "* %?\nEntered on %U\n  %i\n  %a")))
+     "* %?\nEntered on %U\n  %i\n  %a")
+    ("f" "Fleeting Entry" entry (file create-fleeting-entry)
+     "* %?\nEntered on %U\n  %i\n  %a"))
+  )
 
 (defun create-zettelkasten-entry ()
   "Create a dated filename for zettelkasten identification purposes."
@@ -9,6 +12,14 @@
       (format-time-string "%Y%m%d%H%M%S")
       name)
     "~/Development/notes/")))
+
+(defun create-fleeting-entry ()
+  "Create a dated filename for zettelkasten identification purposes."
+  (let ((name (read-string "Enter the file name: ")))
+    (expand-file-name (format "%s_%s.org"
+      (format-time-string "%Y%m%d%H%M%S")
+      name)
+		      "~/Development/notes/fleeting/")))
 
 (defun get-undated-filenames (directory)
   "Return a list of filenames in the given Directory."
