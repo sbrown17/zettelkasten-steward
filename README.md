@@ -5,8 +5,8 @@ This is a small system I'm writing to try and create a basic zettelkasten system
 A few things I'm looking to add:
 
 - [x] Automatic ID generation
-- [] Automatic tag indexing
-- [] org-capture-templates
+- [ ] Automatic tag indexing
+- [ ] org-capture-templates
    - [x] permanent notes
-   - [] fleeting notes
-   - [] literature notes
+   - [ ] fleeting notes
+   - [ ] literature notes
