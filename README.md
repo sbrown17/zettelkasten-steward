@@ -8,5 +8,5 @@ A few things I'm looking to add:
 - [ ] Automatic tag indexing
 - [ ] org-capture-templates
    - [x] permanent notes
-   - [ ] fleeting notes
+   - [x] fleeting notes
    - [ ] literature notes
