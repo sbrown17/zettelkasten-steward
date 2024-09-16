@@ -36,7 +36,7 @@
       (when (string-match "^\\([0-9]\\{14\\}\\)" file)
         (push (string-to-number (match-string 1 file)) digits-list)))))
 
-(defun rename-file-safe (old-name new-name)
+(defun rename-file-safe (new-name old-name)
   "Rename file old-name to new-name safely."
   (condition-case err
       (progn
@@ -45,3 +45,29 @@
       (rename-file old-name new-name)
       (message "File renamed from '%s' to '%s'" old-name new-name))
     (error (message "Error renaming file: %s" (error-message-string err)))))
+
+(defun file-name-with-unique-id (file-name)
+  "Add datetime to the filename"
+  (let* ((base (file-name-sane-extension file-name))
+	 (datetime-id (generate-datetime-id))
+	 (format "%s-%s.org" base datetime-id))))
+
+(defun sort-numbers-descending (numbers)
+  "Sort a list of NUMBERS from highest to lowest."
+  (sort (copy-sequence numbers) '>))
+
+(defun generate-datetime-id ()
+  "Generate new datetime based id for file name."
+  (+ 1 (car (sort-numbers-descending (get-14-digit-prefixes-as-numbers "." )))))
+  
+(defun id-files-in-directory (directory)
+  "Give ids to files that dont have ids in a given directroy."
+  (let ((files (get-undated-filenames directory t)))
+    (dolist (file files)
+      (when (file-regular-p file)
+        (let* ((old-name (file-name-nondirectory file))
+               (new-name (file-name-with-unique-id old-name))
+               (new-path (expand-file-name new-name directory)))
+          (unless (string= old-name new-name)
+            (rename-file file new-path)
+            (message "Renamed: %s -> %s" old-name new-name)))))))
